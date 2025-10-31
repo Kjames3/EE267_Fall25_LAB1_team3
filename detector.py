@@ -26,19 +26,71 @@ class Detector:
 
         """
         sensors = [
-            {'type': 'sensor.camera.rgb', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
-                      'width': 1280, 'height': 720, 'fov': 100, 'id': 'Left'},
+            # 1. Main Front Camera (for visualization)
+            # This is needed to see the world and draw the 3D boxes on.
+            {'type': 'sensor.camera.rgb', 
+             'x': 2.0, 'y': 0.0, 'z': 1.5,  # 2m forward, 1.5m high
+             'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
+             'width': 1280, 'height': 720, 'fov': 100, 
+             'id': 'Camera_Front'},
 
-            {'type': 'sensor.camera.rgb', 'x': 0.7, 'y': 0.4, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
-                      'width': 1280, 'height': 720, 'fov': 100, 'id': 'Right'},
+            # 2. Top-Mounted LIDAR (as requested)
+            {'type': 'sensor.lidar.ray_cast', 
+             'x': 0.0, 'y': 0.0, 'z': 2.0,  # Centered, 2m high on the roof
+             'yaw': 0.0, 'pitch': 0.0, 'roll': 0.0,
+             'range': 50, 
+             'rotation_frequency': 20, 
+             'channels': 64,
+             'upper_fov': 4, 
+             'lower_fov': -20, 
+             'points_per_second': 2304000,
+             'id': 'LIDAR_Top'},
 
-            {'type': 'sensor.lidar.ray_cast', 'x': 0.7, 'y': 0.0, 'z': 1.60, 'yaw': 0.0, 'pitch': 0.0, 'roll': 0.0,
-                      'range': 50, 
-                      'rotation_frequency': 20, 'channels': 64,
-                      'upper_fov': 4, 'lower_fov': -20, 'points_per_second': 2304000,
-                      'id': 'LIDAR'},
+            # 3. Front RADAR (as requested)
+            {'type': 'sensor.other.radar', 
+             'x': 2.0, 'y': 0.0, 'z': 1.0,  # Front bumper
+             'yaw': 0.0, 'pitch': 0.0, 'roll': 0.0, # Pointing forward
+             'horizontal_fov': 30,  # 30-degree cone
+             'vertical_fov': 30,
+             'range': 100,  # 100m range
+             'points_per_second': 1500,
+             'id': 'RADAR_Front'},
 
-            {'type': 'sensor.other.gnss', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'id': 'GPS'}
+            # 4. Back RADAR (as requested)
+            {'type': 'sensor.other.radar', 
+             'x': -2.0, 'y': 0.0, 'z': 1.0, # Rear bumper
+             'yaw': 180.0, 'pitch': 0.0, 'roll': 0.0, # Pointing backward
+             'horizontal_fov': 30,
+             'vertical_fov': 30,
+             'range': 100,
+             'points_per_second': 1500,
+             'id': 'RADAR_Back'},
+
+            # 5. Left RADAR (as requested)
+            {'type': 'sensor.other.radar', 
+             'x': 0.0, 'y': -0.5, 'z': 1.0, # Left side
+             'yaw': -90.0, 'pitch': 0.0, 'roll': 0.0, # Pointing left
+             'horizontal_fov': 30,
+             'vertical_fov': 30,
+             'range': 100,
+             'points_per_second': 1500,
+             'id': 'RADAR_Left'},
+
+            # 6. Right RADAR (as requested)
+            {'type': 'sensor.other.radar', 
+             'x': 0.0, 'y': 0.5, 'z': 1.0,  # Right side
+             'yaw': 90.0, 'pitch': 0.0, 'roll': 0.0, # Pointing right
+             'horizontal_fov': 30,
+             'vertical_fov': 30,
+             'range': 100,
+             'points_per_second': 1500,
+             'id': 'RADAR_Right'},
+            
+            # 7. GNSS (GPS) Sensor
+            # Generally useful for global positioning.
+            {'type': 'sensor.other.gnss', 
+             'x': 0.0, 'y': 0.0, 'z': 0.0, 
+             'id': 'GPS'}
         ]
 
         return sensors
