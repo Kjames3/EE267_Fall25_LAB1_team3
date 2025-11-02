@@ -112,6 +112,9 @@ When automatic_control.py is running, a Pygame window will open.
 
 Changing Views: You can cycle through the different sensor visualizations by pressing the TAB key. This will switch between the main Camera_Front view and the LIDAR_Top (Bird's-Eye-View) visualization.
 
+![Alt text](Pictures/Front_camera.png)
+
+![Alt text](Pictures/Lidar_top_down.png)
 ### Detection Algorithm
 
 The detector.py script implements a classic, non-deep-learning 3D object detection algorithm.
